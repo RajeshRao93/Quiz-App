@@ -35,14 +35,3 @@ const QuizComponent = () => {
 };
 
 export default QuizComponent;
-
-//------------TODO-----------------------
-// 1) Remove/cleanup unwanted css,
-// 2) use transform perspective animated texts,
-// 3) watch css nesting video
-// 4) refer web ui designs for quiz app and beautify it
-// 5) Option to restart the quiz -> clear store's category and difficulty
-// 6) data serialisation
-// background image
-// increase score card size
-// reset should reset dropdowns gracefully

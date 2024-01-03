@@ -1,12 +1,4 @@
-import {
-  Box,
-  Button,
-  MobileStepper,
-  Paper,
-  ToggleButton,
-  ToggleButtonGroup,
-  Typography,
-} from "@mui/material";
+import { Box, Button, MobileStepper, Paper, Typography } from "@mui/material";
 import "./QuestionComponent.css";
 import { useDispatch, useSelector } from "react-redux";
 import { BaseSyntheticEvent, useEffect } from "react";
@@ -57,6 +49,7 @@ const QuestionComponent = () => {
 
   useEffect(() => {
     if (selections.difficulty && selections.category) {
+      resetGame(false);
       dispatch(setIsLoading(true));
       axios
         .get(
@@ -112,11 +105,6 @@ const QuestionComponent = () => {
   };
 
   const prepareAnswerBundle = (event: BaseSyntheticEvent) => {
-    // if(answerBundle.get(activeStep) === event.target.textContent){
-    //     setAnswerBundle(new Map(answerBundle.delete(activeStep)))
-
-    // }
-
     setAnswerBundle(
       new Map(answerBundle.set(activeStep, event.target.textContent))
     );
@@ -139,12 +127,13 @@ const QuestionComponent = () => {
     var str = str.replace(/&quot;/g, '"');
     var str = str.replace(/&ldquo;/g, "“");
     var str = str.replace(/&rdquo;/g, "”");
+    var str = str.replace(/&oacute;/g, "ó");
 
     return str;
   };
 
-  const resetGame = () => {
-    dispatch(clearSelections());
+  const resetGame = (clearSelection: boolean) => {
+    clearSelection ? dispatch(clearSelections()) : "";
     dispatch(resetQuestions());
     setQuestionBundle([]);
     setActiveStep(0);
@@ -161,7 +150,7 @@ const QuestionComponent = () => {
       </Paper>
       <Box className="stepperContent">
         <Typography
-          className="questionPanel"
+          className="questionPanel animate"
           variant="h6"
           sx={{ fontWeight: "700", fontSize: "1.5rem" }}
         >
@@ -170,7 +159,7 @@ const QuestionComponent = () => {
         <div className="optionContainer">
           <div className="optionRow">
             <div
-              className="option"
+              className="option animate"
               onClick={prepareAnswerBundle}
               style={{
                 backgroundColor:
@@ -183,7 +172,7 @@ const QuestionComponent = () => {
               {replaceSpecialChars(questionBundle[activeStep].options[0])}
             </div>
             <div
-              className="option"
+              className="option animate"
               onClick={prepareAnswerBundle}
               style={{
                 backgroundColor:
@@ -198,7 +187,7 @@ const QuestionComponent = () => {
           </div>
           <div className="optionRow">
             <div
-              className="option"
+              className="option animate"
               onClick={prepareAnswerBundle}
               style={{
                 backgroundColor:
@@ -211,7 +200,7 @@ const QuestionComponent = () => {
               {replaceSpecialChars(questionBundle[activeStep].options[2])}
             </div>
             <div
-              className="option"
+              className="option animate"
               onClick={prepareAnswerBundle}
               style={{
                 backgroundColor:
@@ -275,7 +264,7 @@ const QuestionComponent = () => {
 
         <Button
           className="buttons"
-          onClick={resetGame}
+          onClick={() => resetGame(true)}
           sx={{
             backgroundColor: "var(--start-btn-color)",
             color: "var(--white-font-color)",
@@ -296,9 +285,17 @@ const QuestionComponent = () => {
   return (
     <div className="questionContainer">
       {totalScore > 0 && questionBundle.length > 0 && (
-        <Paper square elevation={12}>
-          <Typography variant="h4">
-            You have scored {totalScore}/{maxSteps}
+        <Paper
+          square
+          elevation={12}
+          className="scoreCard animate"
+          sx={{
+            backgroundColor: "var(--bg-color)",
+            color: "var(--default-font-color)",
+          }}
+        >
+          <Typography variant="h4" sx={{ fontFamily: "cursive" }}>
+            You have scored {totalScore}/{maxSteps}!
           </Typography>
         </Paper>
       )}

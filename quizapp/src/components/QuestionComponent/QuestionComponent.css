@@ -19,7 +19,6 @@
 
 .optionRow {
   display: flex;
-  /* height: 20%; */
   width: 80%;
 }
 
@@ -27,7 +26,7 @@
   padding: 20px;
   margin: 10px;
   width: 50%;
-  border: 1px solid var(--border-color);
+  cursor: pointer;
   border-radius: 45px;
   display: flex;
   justify-content: center;
@@ -35,12 +34,19 @@
   height: 40%;
   font-size: 1.25rem;
   font-weight: 600;
-  transition: 1s all cubic-bezier(0.165, 0.84, 0.44, 1);
+  background-image: linear-gradient(
+    90deg,
+    transparent,
+    rgb(168, 220, 230),
+    #99ece8
+  );
+  background-size: 300% 200%;
+  background-position: left;
+  transition: background-position 4s;
 }
 
 .option:hover {
-  background-color: #9bbcd7;
-  transition: 5s all cubic-bezier(0.165, 0.84, 0.44, 1);
+  background-position: right;
 }
 
 .stepperHeader {
@@ -53,7 +59,6 @@
 }
 
 .questionPanel {
-  border: 1px solid var(--border-color);
   width: 80%;
   min-width: 50%;
   display: flex;
@@ -91,6 +96,35 @@
 .buttonsPanel {
   display: flex;
   flex-direction: row;
+  justify-content: center;
+  align-items: center;
+}
+
+.animate {
+  animation: fadeUp 0.8s forwards cubic-bezier(0.39, 0.575, 0.565, 1);
+  opacity: 0;
+}
+
+.delay-200 {
+  animation-delay: 200ms;
+}
+
+@keyframes fadeUp {
+  0% {
+    transform: translateY(-50px);
+    opacity: 0;
+  }
+
+  100% {
+    transform: translateY(0);
+    opacity: 1;
+  }
+}
+
+.scoreCard {
+  width: 25vw;
+  height: 10vh;
+  display: flex;
   justify-content: center;
   align-items: center;
 }

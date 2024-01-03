@@ -1,4 +1,3 @@
-import { useState } from "react";
 import QuizComponent from "./components/QuizComponent/QuizComponent";
 import "./App.css";
 import AppBarComponent from "./components/AppBarComponent/AppBarComponent";
