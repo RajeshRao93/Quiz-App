@@ -4,8 +4,8 @@
   font-weight: 400;
 
   color-scheme: light dark;
-  color: rgba(255, 255, 255, 0.87);
-  /* background-color: #363232; */
+  color: teal;
+  background-color: #f7d671;
 
   font-synthesis: none;
   text-rendering: optimizeLegibility;
@@ -19,13 +19,17 @@ body {
   padding: 0;
   font-family: sans-serif;
   --border-color: #fff;
-  --bg-color: #00002e;
+  --bg-color: #f7d671;
   --white-font-color: #fff;
   --white-bg-color: #fff;
   --black-font-color: #000000;
   --black-bg-color: #000000;
-  --start-btn-color: #688d0c;
+  --start-btn-color: #98b356;
   --stepper-bg-color: #7878a329;
+  --selected-bg-color: #f7d671;
+  --answer-font-color: #6bff5a;
+  --default-font-color: teal;
+  overflow: hidden;
 }
 
 /* body {

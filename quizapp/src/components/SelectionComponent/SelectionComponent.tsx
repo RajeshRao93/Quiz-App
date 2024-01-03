@@ -8,9 +8,14 @@ import {
   SelectChangeEvent,
   Typography,
 } from "@mui/material";
-import { useState } from "react";
-import { useDispatch } from "react-redux";
-import { setSelections } from "../../features/selections/selectionSlice";
+import { useEffect, useState } from "react";
+import { useDispatch, useSelector } from "react-redux";
+import {
+  getAllSelections,
+  setCategorySelection,
+  setDifficultySelection,
+} from "../../features/selections/selectionSlice";
+import "./SelectionComponent.css";
 
 interface Categories {
   name: string;
@@ -20,30 +25,33 @@ interface Categories {
 const SelectionComponent = () => {
   const [category, setCategory] = useState<string>("");
   const [difficulty, setDifficulty] = useState<string>("");
-  const [quizStarted, setQuizStarted] = useState<boolean>(false);
   const dispatch = useDispatch();
+  const selections = useSelector(getAllSelections);
+
+  useEffect(() => {
+    if (selections.category === "" && selections.difficulty === "") {
+      setCategory("");
+      setDifficulty("");
+    }
+  }, [selections]);
 
   const FormBox = styled(Box)(() => ({
     width: "20vw",
-    paddingTop: "30px",
+    padding: "30px",
     color: "var(--white-font-color)",
   }));
 
   const TypeSelect = styled(Select)(() => ({
-    color: "var(--black-font-color)",
     backgroundColor: "var(--white-font-color)",
+    borderRadius: "30px",
+    fontFamily: "cursive",
+    color: "var(--default-font-color)",
   }));
 
-  const StartButton = styled(Button)(() => ({
-    backgroundColor: "var(--start-btn-color)",
-    marginTop: "30px",
-    "&:hover": {
-      backgroundColor: "var(--start-btn-color)",
-    },
-    "&.Mui-disabled": {
-      backgroundColor: "#94a36f",
-      color: "#d3cdcd",
-    },
+  const Label = styled(Typography)(() => ({
+    fontFamily: "cursive",
+    color: "var(--default-font-color)",
+    fontWeight: "600",
   }));
 
   const categories: Categories[] = [
@@ -55,39 +63,40 @@ const SelectionComponent = () => {
 
   const difficulties: string[] = ["Easy", "Medium", "Hard"];
 
-  const handleCategoryChange = (
-    event: SelectChangeEvent<typeof category | unknown>
-  ) => {
+  const handleCategoryChange = (event: SelectChangeEvent<string | unknown>) => {
     const {
       target: { value },
     } = event;
+    dispatch(
+      setCategorySelection(
+        typeof value === "string"
+          ? categories.filter((x) => x.name === value)[0].number
+          : ""
+      )
+    );
+
     setCategory(typeof value === "string" ? value : "");
   };
 
   const handleDifficultyChange = (
-    event: SelectChangeEvent<typeof category | unknown>
+    event: SelectChangeEvent<string | unknown>
   ) => {
     const {
       target: { value },
     } = event;
+    dispatch(
+      setDifficultySelection(
+        typeof value === "string" ? value.toLowerCase() : ""
+      )
+    );
+
     setDifficulty(typeof value === "string" ? value : "");
   };
 
-  const updateSelections = () => {
-    const selections = {
-      category: categories.filter((x) => x.name === category)[0].number,
-      difficulty: difficulty.toLowerCase(),
-    };
-    dispatch(setSelections(selections));
-    setQuizStarted(true);
-  };
-
-  const quizCanStart: boolean = category != "" && difficulty != "";
-
   const CategorySelection = (
-    <FormBox>
-      <FormControl fullWidth required disabled={quizStarted}>
-        <Typography variant="h6">Select the category for the quiz.</Typography>
+    <FormBox className="selection">
+      <FormControl fullWidth required>
+        <Label variant="h6">Select the category for the quiz</Label>
         <TypeSelect
           id="demo-simple-select"
           value={category}
@@ -104,11 +113,9 @@ const SelectionComponent = () => {
   );
 
   const DifficultySelection = (
-    <FormBox>
-      <FormControl fullWidth required disabled={quizStarted}>
-        <Typography variant="h6">
-          Select the difficulty for the quiz.
-        </Typography>
+    <FormBox className="selection">
+      <FormControl fullWidth required>
+        <Label variant="h6">Select the difficulty for the quiz</Label>
         <TypeSelect
           id="demo-simple-select"
           value={difficulty}
@@ -125,17 +132,9 @@ const SelectionComponent = () => {
   );
 
   const SelectQuizOptionsCard = (
-    <div>
+    <div className="quizOptions">
       {CategorySelection}
       {DifficultySelection}
-      <StartButton
-        variant="contained"
-        size="large"
-        disabled={!quizCanStart || quizStarted}
-        onClick={updateSelections}
-      >
-        Start the quiz
-      </StartButton>
     </div>
   );
 

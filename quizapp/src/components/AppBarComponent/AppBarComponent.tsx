@@ -9,9 +9,7 @@ import styled from "@emotion/styled";
 export default function AppBarComponent() {
   const NavBar = styled(AppBar)(() => ({
     position: "relative",
-    backgroundColor: getComputedStyle(document.body).getPropertyValue(
-      "--bg-color"
-    ),
+    backgroundColor: "var(--bg-color)",
   }));
 
   return (
@@ -19,9 +17,13 @@ export default function AppBarComponent() {
       <NavBar>
         <Toolbar>
           <Typography
-            variant="h5"
+            variant="h4"
             component="div"
-            sx={{ flexGrow: 1, fontSize: 30 }}
+            sx={{
+              flexGrow: 1,
+              fontFamily: "fantasy",
+              color: "var(--default-font-color)",
+            }}
           >
             Quizzapp
           </Typography>

@@ -2,8 +2,8 @@ import { createSlice } from "@reduxjs/toolkit";
 
 const initialState = {
   selections: {
-    category: null,
-    difficulty: null,
+    category: "",
+    difficulty: "",
   },
 };
 
@@ -11,13 +11,21 @@ const selectionSlice = createSlice({
   name: "selections",
   initialState: initialState,
   reducers: {
-    setSelections: (state, { payload }) => {
-      state.selections = payload;
+    setCategorySelection: (state, { payload }) => {
+      state.selections.category = payload;
+    },
+    setDifficultySelection: (state, { payload }) => {
+      state.selections.difficulty = payload;
+    },
+    clearSelections: (state) => {
+      state.selections = initialState.selections;
     },
   },
 });
 
-export const { setSelections } = selectionSlice.actions;
+export const { setCategorySelection } = selectionSlice.actions;
+export const { setDifficultySelection } = selectionSlice.actions;
+export const { clearSelections } = selectionSlice.actions;
 export const getAllSelections = (state: {
   selections: { selections: { category: string; difficulty: string } };
 }) => state.selections.selections;
