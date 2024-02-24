@@ -1,4 +1,4 @@
-## QuizApp
+## QuizApp (https://quiz-appppp.netlify.app/)
 
 QuizApp is a game of quiz as a web application built using ReactJS, Typescript and Material UI for the frontend.
 The backend uses APIs provided by [Trivia API](https://opentdb.com/api_config.php?ref=altcademy.com).
