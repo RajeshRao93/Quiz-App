@@ -44,7 +44,6 @@ const QuestionComponent = () => {
   const [totalScore, setTotalScore] = React.useState(0);
 
   const questions: Question[] = useSelector(allQuestions);
-  console.log(questions);
   const maxSteps = questionBundle.length;
 
   useEffect(() => {
@@ -85,8 +84,10 @@ const QuestionComponent = () => {
     var parsedQuestions = JSON.parse(JSON.stringify(questions));
     var quizQuestions: QuestionBundle[] = [];
     parsedQuestions.map((question: Question) => {
-      var options = question.incorrect_answers;
-      options.push(question.correct_answer);
+      var options = question.incorrect_answers.map((qustn) =>
+        replaceSpecialChars(qustn)
+      );
+      options.push(replaceSpecialChars(question.correct_answer));
       options.sort();
       let bundle: QuestionBundle = {
         type: question.type,
@@ -128,6 +129,8 @@ const QuestionComponent = () => {
     var str = str.replace(/&ldquo;/g, "“");
     var str = str.replace(/&rdquo;/g, "”");
     var str = str.replace(/&oacute;/g, "ó");
+    var str = str.replace(/&ouml;/g, "ö");
+    var str = str.replace(/&auml;/g, "ä");
 
     return str;
   };
